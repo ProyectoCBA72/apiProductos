@@ -1,4 +1,5 @@
 venv311/
+nota.txt
 .vscode/
 *.log
 *.tmp
