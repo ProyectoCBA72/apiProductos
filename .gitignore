@@ -1,9 +1,7 @@
 venv311/
 .vscode/
-
 *.log
 *.tmp
-
 __pycache__/
 *.pyc
 *.pyo
