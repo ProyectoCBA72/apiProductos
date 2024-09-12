@@ -19,13 +19,13 @@ class Sede(models.Model):
 class ImagenSede(models.Model):
     id = models.AutoField(primary_key=True)
     sede = models.ForeignKey(Sede, on_delete=models.CASCADE, null=False)
-    imagen = models.ImageField(upload_to='sedes-imagenes/')
+    imagen = models.CharField(max_length=2048)
 
 
 class UnidadProduccion(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=50, null=False, blank=False)
-    logo = models.ImageField(upload_to='und-prod-logos/')
+    logo = models.CharField(max_length=2048)
     descripcion = models.TextField(null=False, blank=False)
     estado = models.BooleanField(default=True, null=False, blank=False)
     sede = models.ForeignKey(Sede, on_delete=models.SET_NULL,null=True)
@@ -38,7 +38,7 @@ class Produccion(models.Model):
         PENDIENTE = "PENDIENTE", ("PENDIENTE")
         RECIBIDO = "RECIBIDO", ("RECIBIDO")
     id = models.AutoField(primary_key=True)
-    numero = models.IntegerField(null=False, blank=False)
+    numero = models.CharField(null=False, blank=False)
     estado = models.CharField(max_length=20,choices=Estado.choices, default=Estado.PENDIENTE, null=False, blank=False)
     cantidad = models.IntegerField(null=False)
     fechaDespacho = models.DateTimeField(null=True, blank=True)
@@ -101,15 +101,14 @@ class Usuario(models.Model):
 class FotoUsuario(models.Model):
     id = models.AutoField(primary_key=True)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE )
-    foto = models.ImageField(upload_to='usuarios-fotos/')
+    foto = models.CharField(max_length=2048)
 
 
 class Categorias(models.Model):
     id = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=50, blank=False, null=False)
-    imagen = models.ImageField(upload_to='categorias-imagenes/')
-    icono = models.FileField(upload_to='categorias-iconos/')
-
+    nombre = models.CharField(max_length=255, blank=False, null=False)
+    imagen = models.CharField(max_length=2048) 
+    icono = models.CharField(max_length=2048)
 
 class Producto(models.Model):
     id = models.AutoField(primary_key=True)
@@ -125,8 +124,12 @@ class Producto(models.Model):
     precioFuncionario = models.IntegerField(null=True, blank=True)
     precioOferta = models.IntegerField(null=False, blank=False)
     exclusivo = models.BooleanField(default=False)
-    categoria = models.ForeignKey(
-        Categorias, on_delete=models.SET_NULL, null=True)
+    categoria1 = models.ForeignKey(
+        Categorias, on_delete=models.SET_NULL, null=True, related_name='productos_1')
+    categoria2 = models.ForeignKey(
+        Categorias, on_delete=models.SET_NULL, null=True, related_name='productos_2')
+    categoria3 = models.ForeignKey(
+        Categorias, on_delete=models.SET_NULL, null=True, related_name='productos_3')
     unidadProduccion = models.ForeignKey(
         UnidadProduccion,  on_delete=models.SET_NULL, null=True)
     usuario = models.ForeignKey(
@@ -151,7 +154,7 @@ class Favorito(models.Model):
 
 class Imagen(models.Model):
     id = models.AutoField(primary_key=True)
-    imagen = models.ImageField(upload_to='productos-imagenes/')
+    imagen = models.CharField(max_length=2048)
     producto = models.ForeignKey(
         Producto, on_delete=models.CASCADE, null=False)
 
@@ -170,17 +173,17 @@ class Anuncio(models.Model):
     fecha = models.DateTimeField(null=False, blank=False)
     descripcion = models.TextField(null=False, blank=False)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, null=False)
-    fechaEvento = models.DateTimeField(null=False)
+    fechaEvento = models.DateTimeField(null=True)
     evento = models.BooleanField(default=False)
     eventoIncripcionInicio = models.DateTimeField(null=True)
     eventoIncripcionFin = models.DateTimeField(null=True)
     maxcupos = models.IntegerField(null=True)
-    anexo = models.FileField(upload_to='anuncios-anexo/' ,null=True)
+    anexo = models.CharField(max_length=2048, null=True)
 
 
 class ImagenAnuncio(models.Model):
     id = models.AutoField(primary_key=True)
-    imagen = models.ImageField(upload_to='anuncios-imagenes/')
+    imagen = models.CharField(max_length=2048)
     anuncio = models.ForeignKey(Anuncio, on_delete=models.CASCADE, null=False)
 
 
@@ -223,7 +226,7 @@ class Pedido(models.Model):
         COMPLETADO = "COMPLETADO", ("COMPLETADO")
 
     id = models.AutoField(primary_key=True)
-    numeroPedido = models.IntegerField(null=False, blank=False)
+    numeroPedido = models.CharField(null=False, blank=False)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, null=False)
     fechaEncargo = models.DateTimeField(null=True, blank=True)
     fechaEntrega = models.DateTimeField(null=True, blank=True)
@@ -244,9 +247,9 @@ class AuxPedido(models.Model):
 
 class Factura(models.Model):
     id = models.AutoField(primary_key=True)
-    numero = models.IntegerField(null=False, blank=False)
+    numero = models.CharField(null=False, blank=False)
     fecha = models.DateTimeField(null=False, blank=False)
-    usuarioVendedor= models.CharField(null=False, blank=False, default=0)
+    usuarioVendedor= models.IntegerField(null=False, blank=False, default=0)
     medioPago = models.ForeignKey(
         MedioPago, on_delete=models.CASCADE, null=False)
     pedido = models.ForeignKey(

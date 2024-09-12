@@ -53,7 +53,6 @@ class CategoriasSerializer(serializers.ModelSerializer):
         model = Categorias
         fields = '__all__'
 
-#
 
 
 class ProductoSerializer(serializers.ModelSerializer):
@@ -61,41 +60,11 @@ class ProductoSerializer(serializers.ModelSerializer):
         model = Producto
         fields = '__all__'
 
-    def to_representation(self, instance):
-        if 'request' in self.context:
-            # Agregar campos adicionales para la solicitud GET
-            representation = super().to_representation(instance)
-            representation['unidadProduccion'] = UnidadProduccionSerializer(
-                instance.unidadProduccion, context=self.context
-            ).data
-            representation['categoria'] = CategoriasSerializer(
-                instance.categoria, context=self.context).data
-            
-            representation['usuario'] = UsuarioSerializer(
-                instance.usuario, context=self.context).data
-            return representation
-        else:
-            return super().to_representation(instance)
-
 
 class VisitadoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Visitado
         fields = '__all__'
-
-    def to_representation(self, instance):
-        # Verificar si 'request' está presente en el contexto
-        if 'request' in self.context:
-            # Agregar campos adicionales para la solicitud GET
-            representation = super().to_representation(instance)
-            representation['producto'] = ProductoSerializer(
-                instance.producto, context=self.context).data
-            return representation
-        else:
-            # En caso de que 'request' no esté en el contexto, utiliza representación predeterminada
-            return super().to_representation(instance)
-
-
 
 
 class FavoritoSerializer(serializers.ModelSerializer):
@@ -103,41 +72,10 @@ class FavoritoSerializer(serializers.ModelSerializer):
         model = Favorito
         fields = '__all__'
 
-
-    def to_representation(self, instance):
-        # Verificar si 'request' está presente en el contexto
-        if 'request' in self.context:
-            # Agregar campos adicionales para la solicitud GET
-            representation = super().to_representation(instance)
-            representation['producto'] = ProductoSerializer(
-                instance.producto, context=self.context).data
-            return representation
-        else:
-            # En caso de que 'request' no esté en el contexto, utiliza representación predeterminada
-            return super().to_representation(instance)
-
-
-
-
 class ImagenSerializer(serializers.ModelSerializer):
     class Meta:
         model = Imagen
         fields = '__all__'
-
-    def to_representation(self, instance):
-        # Verificar si 'request' está presente en el contexto
-        if 'request' in self.context:
-            # Agregar campos adicionales para la solicitud GET
-            representation = super().to_representation(instance)
-            representation['producto'] = ProductoSerializer(
-                instance.producto, context=self.context).data
-            return representation
-        else:
-            # En caso de que 'request' no esté en el contexto, utiliza representación predeterminada
-            return super().to_representation(instance)
-
-
-
 
 
 class MensajesSerializer(serializers.ModelSerializer):
@@ -170,35 +108,11 @@ class ImagenAnuncioSerializer(serializers.ModelSerializer):
         model = ImagenAnuncio
         fields = '__all__'
 
-    def to_representation(self, instance):
-        # Verificar si 'request' está presente en el contexto
-        if 'request' in self.context:
-            # Agregar campos adicionales para la solicitud GET
-            representation = super().to_representation(instance)
-            representation['anuncio'] = AnuncioSerializer(
-                instance.anuncio, context=self.context).data
-            return representation
-        else:
-            # En caso de que 'request' no esté en el contexto, utiliza representación predeterminada
-            return super().to_representation(instance)
-
-
 
 class ComentarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comentario
         fields = '__all__'
-
-    def to_representation(self, instance):
-        if 'request' in self.context:
-            # Agregar campos adicionales para la solicitud GET
-            representation = super().to_representation(instance)
-            representation['anuncio'] = AnuncioSerializer(
-                instance.anuncio, context=self.context).data
-            return representation
-        else:
-            # En caso de que 'request' no esté en el contexto, utiliza representación predeterminada
-            return super().to_representation(instance)
 
 
 class PuntoVentaSerializer(serializers.ModelSerializer):
@@ -336,19 +250,6 @@ class ImegenSedeSerializer(serializers.ModelSerializer):
         model = ImagenSede
         fields = '__all__'
 
-    def to_representation(self, instance):
-        # Verificar si 'request' está presente en el contexto
-        if 'request' in self.context:
-            # Agregar campos adicionales para la solicitud GET
-            representation = super().to_representation(instance)
-            representation['sede'] = SedeSerializer(
-                instance.sede, context=self.context).data
-            return representation
-        else:
-            # En caso de que 'request' no esté en el contexto, utiliza representación predeterminada
-            return super().to_representation(instance)
-
-
 class BoletaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Boleta
@@ -371,16 +272,4 @@ class FotoUsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = FotoUsuario
         fields = '__all__'
-
-    def to_representation(self, instance):
-        # Verificar si 'request' está presente en el contexto
-        if 'request' in self.context:
-            # Agregar campos adicionales para la solicitud GET
-            representation = super().to_representation(instance)
-            representation['usuario'] = UsuarioSerializer(
-                instance.usuario, context=self.context).data
-            return representation
-        else:
-            # En caso de que 'request' no esté en el contexto, utiliza representación predeterminada
-            return super().to_representation(instance)
 
