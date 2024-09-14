@@ -6,3 +6,4 @@ nota.txt
 __pycache__/
 *.pyc
 *.pyo
+media/

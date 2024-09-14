@@ -58,9 +58,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.cache.UpdateCacheMiddleware',  # Colocar al inicio
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',  # Colocar después de CommonMiddleware
+    # 'django.middleware.cache.UpdateCacheMiddleware',  # Colocar al inicio
+    # 'django.middleware.common.CommonMiddleware',
+    # 'django.middleware.cache.FetchFromCacheMiddleware',  # Colocar después de CommonMiddleware
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -103,20 +103,20 @@ CACHES = {
 
 
 
-DATABASES = {
-    "default": dj_database_url.parse("postgresql://cba_productos_user:a8evR7127urTkvVog9BWsZab7vAMXn0K@dpg-cqv187qj1k6c73doc500-a.oregon-postgres.render.com/cba_productos")
-}
-
 # DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'cba_productos',
-#         'USER': 'admin',
-#         'PASSWORD': 'admin',
-#         'HOST': 'localhost',
-#         'PORT': '',
-#     }
+#     "default": dj_database_url.parse("postgresql://cba_productos_user:a8evR7127urTkvVog9BWsZab7vAMXn0K@dpg-cqv187qj1k6c73doc500-a.oregon-postgres.render.com/cba_productos")
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'cba_productos',
+        'USER': 'admin',
+        'PASSWORD': 'admin',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
 
 
 # Password validation
